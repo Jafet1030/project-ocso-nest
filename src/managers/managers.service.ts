@@ -1,26 +1,46 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateManagerDto } from './dto/create-manager.dto';
 import { UpdateManagerDto } from './dto/update-manager.dto';
+import { Repository } from 'typeorm';
+import { Manager } from './entities/manager.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
-export class ManagersService {
-  create(createManagerDto: CreateManagerDto) {
-    return 'This action adds a new manager';
-  }
+ export class ManagersService {
+   constructor(
+     @InjectRepository(Manager)
+     private managerRepository: Repository<Manager>
+   ){}
+   create(createManagerDto: CreateManagerDto) {
+     return this.managerRepository.save(createManagerDto);
+   }
+ 
+   findAll() {
+     return this.managerRepository.find()
+   }
+ 
+   findOne(id: string) {
+     const manager = this.managerRepository.findOneBy({
+       managerId: id
+     })
+     if (!manager) throw new NotFoundException("No manager found")
+   }
+ 
 
-  findAll() {
-    return `This action returns all managers`;
-  }
+   async update(id: string, updateManagerDto: UpdateManagerDto) {
+     const managerToUpdate = await this.managerRepository.preload({
+       managerId: id,
+         ...updateManagerDto
+     })
+     if (!managerToUpdate) {
+       throw new NotFoundException("No manager found to update");
+     }
+     return this.managerRepository.save(managerToUpdate);
+   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} manager`;
-  }
-
-  update(id: number, updateManagerDto: UpdateManagerDto) {
-    return `This action updates a #${id} manager`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} manager`;
-  }
-}
+   remove(id: string) {
+     return this.managerRepository.delete({
+       managerId: id
+     })
+   }
+ }
