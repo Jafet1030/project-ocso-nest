@@ -6,14 +6,15 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm";
  export class User{
    @PrimaryGeneratedColumn('uuid')
    userId: string;
-   @Column('text')
-   userEmail: string;
+   @Column('text', {unique: true,})   
+  userEmail: string;
    @Column('text')
    userPassword: string;
    @Column('simple-array', {
     default: "Employee"
   })
   userRoles: string[];
+
     @OneToOne(() => Manager,{eager:true})
     manager: Manager;
 
