@@ -4,7 +4,7 @@ import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { ROLES } from 'src/auth/constants/roles.constants';
-import { AuthApi } from 'src/auth/decorators/api.decorator';
+import { AuthApi } from 'src/auth/decorators/api.decorators';
 
 
 @Controller('locations')
