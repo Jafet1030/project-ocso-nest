@@ -5,6 +5,8 @@ import { UpdateProviderDto } from './dto/update-provider.dto';
 import { AuthGuard } from 'src/auth/guards/auth.guards';
 import { UserData } from 'src/auth/decorators/user.decorator';
 import { User } from 'src/auth/entities/user.entity';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('providers')
@@ -15,6 +17,8 @@ export class ProvidersController {
   create(@Body() createProviderDto: CreateProviderDto) {
     return this.providersService.create(createProviderDto);
   }
+  @UseGuards(RolesGuard)
+  @Roles(["Admin"])
 
   @Get()
   findAll(@UserData() user: User) {
