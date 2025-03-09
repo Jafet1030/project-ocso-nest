@@ -5,7 +5,6 @@ import {v4 as uuid} from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Employee } from './entities/employee.entity';
 import { Repository } from 'typeorm';
-import e from 'express';
 
 
 @Injectable()
@@ -21,6 +20,14 @@ export class EmployeesService {
 
   findAll() {
     return this.employeeRepository.find();
+  }
+
+  findByLocation(id: number) {
+    return this.employeeRepository.findBy({
+      location: {
+        locationId: id
+      }
+    })
   }
 
   findOne(id: string) {

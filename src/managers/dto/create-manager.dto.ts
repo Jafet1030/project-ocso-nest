@@ -1,5 +1,6 @@
-import { IsEmail, IsNumber, IsString, MaxLength } from "class-validator";
+import { IsEmail, IsNumber, IsObject, IsOptional, IsString, MaxLength } from "class-validator";
  import { Manager } from "../entities/manager.entity";
+import { Location } from "src/locations/entities/location.entity";
  
  export class CreateManagerDto extends Manager {
    @IsString()
@@ -13,4 +14,7 @@ import { IsEmail, IsNumber, IsString, MaxLength } from "class-validator";
    @IsString()
    @MaxLength(16)
    managerPhoneNumber: string;
+   @IsObject()
+   @IsOptional()
+   location: Location;
  }
