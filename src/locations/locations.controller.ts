@@ -5,6 +5,7 @@ import { UpdateLocationDto } from './dto/update-location.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { ROLES } from 'src/auth/constants/roles.constants';
 import { AuthApi } from 'src/auth/decorators/api.decorators';
+import { ApiTags } from '@nestjs/swagger';
 
 
 @Controller('locations')
@@ -13,6 +14,7 @@ export class LocationsController {
 
   @Auth()
   @AuthApi()
+  @ApiTags('Locations')
   @Post()
   create(@Body() createLocationDto: CreateLocationDto) {
     return this.locationsService.create(createLocationDto);
