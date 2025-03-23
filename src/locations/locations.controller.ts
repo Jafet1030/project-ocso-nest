@@ -7,20 +7,19 @@ import { ROLES } from 'src/auth/constants/roles.constants';
 import { AuthApi } from 'src/auth/decorators/api.decorators';
 import { ApiTags } from '@nestjs/swagger';
 
-
+// @AuthApi()
+@ApiTags('Locations')
 @Controller('locations')
 export class LocationsController {
   constructor(private readonly locationsService: LocationsService) {}
 
   @Auth()
-  @AuthApi()
-  @ApiTags('Locations')
   @Post()
   create(@Body() createLocationDto: CreateLocationDto) {
     return this.locationsService.create(createLocationDto);
   }
 
-  @Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
+  // @Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
   @AuthApi()
   @Get()
   findAll() {
